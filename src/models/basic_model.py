@@ -2,6 +2,10 @@ from models.model import Model
 from tensorflow.keras import Sequential, layers
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.optimizers import RMSprop, Adam
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import Dropout
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+
 
 class BasicModel(Model):
     def _define_model(self, input_shape, categories_count):
@@ -47,9 +51,9 @@ class BasicModel(Model):
             metrics=['accuracy']                 # Tracking accuracy during training
         )
 
-# if __name__ == "__main__":
-#     input_shape = (150, 150, 3)  # Example input shape
-#     categories_count = 3  # Number of categories (e.g., 3 facial expressions)
+if __name__ == "__main__":
+   input_shape = (150, 150, 3)  # Example input shape
+   categories_count = 3  # Number of categories (e.g., 3 facial expressions)
 
-#     model = BasicModel(input_shape, categories_count)
-#     model.print_summary()  # This will print out the model's architecture
+   model = BasicModel(input_shape, categories_count)
+   model.print_summary()  # This will print out the model's architecture

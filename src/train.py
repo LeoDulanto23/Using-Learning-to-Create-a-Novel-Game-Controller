@@ -5,6 +5,7 @@ from models.model import Model
 from config import image_size
 import matplotlib.pyplot as plt
 import time
+import os
 
 input_shape = (image_size[0], image_size[1], 3)
 categories_count = 3
@@ -39,13 +40,13 @@ def plot_history(history):
 
 if __name__ == "__main__":
     # if you want to load your model later, you can use:
-    # model = Model.load_model("name_of_your_model.keras")
+    #model = Model.load_model("basic_model_1_epochs_timestamp_1723843175.keras")
     # to load your history and plot it again, you can use:
-    # history = np.load('results/name_of_your_model.npy',allow_pickle='TRUE').item()
-    # plot_history(history)
+    #history = np.load('results/basic_model_1_epochs_timestamp_1723843175.npy',allow_pickle='TRUE').item()
+    #plot_history(history)
     # 
     # Your code should change the number of epochs
-    epochs = 1
+    epochs = 10 # I guess size doesn't matter and something is making it not execute the graph...
     print('* Data preprocessing')
     train_dataset, validation_dataset, test_dataset = get_datasets()
     name = 'basic_model'

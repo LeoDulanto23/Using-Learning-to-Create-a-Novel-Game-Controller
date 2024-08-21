@@ -31,6 +31,7 @@ class RandomPlayer:
 from matplotlib import pyplot as plt
 from matplotlib.image import imread
 import cv2
+from tensorflow.keras.models import load_model
 
 class UserWebcamPlayer:
     def _process_frame(self, frame):
@@ -94,21 +95,29 @@ class UserWebcamPlayer:
             raise e
     
     def _get_emotion(self, img) -> int:
-        # Your code goes here
-        #
+
         # img an np array of size NxN (square), each pixel is a value between 0 to 255
         # you have to resize this to image_size before sending to your model
         # to show the image here, you can use:
-        # import matplotlib.pyplot as plt
-        # plt.imshow(img, cmap='gray', vmin=0, vmax=255)
-        # plt.show()
-        #
+        import matplotlib.pyplot as plt
+        plt.imshow(img, cmap='gray', vmin=0, vmax=255)
+        plt.show()
         # You have to use your saved model, use resized img as input, and get one classification value out of it
         # The classification value should be 0, 1, or 2 for neutral, happy or surprise respectively
 
         # return an integer (0, 1 or 2), otherwise the code will throw an error
-        return 1
-        pass
+        # Resize the image to match the model's expected input size
+        resized_img = cv2.resize(img, (image_size[0], image_size[1]))  # Assuming image_size is defined in config.py
+        resized_img = resized_img / 255.0  # Normalize the pixel values
+        resized_img = np.expand_dims(resized_img, axis=-1)  # Add channel dimension if the model expects grayscale input
+        resized_img = np.expand_dims(resized_img, axis=0)  # Add batch dimension
+        
+        # Use the model to predict the emotion
+        predictions = self.model.predict(resized_img)
+        emotion_index = np.argmax(predictions)  # Get the index of the highest confidence score
+
+        return int(emotion_index)  # Return the predicted emotion index
+        #return 1
     
     def get_move(self, board_state):
         row, col = None, None
